@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Papierloses Büro</title>
+</head>
+<body>
+  <h2>Einstellungen</h2>
+
+  <label>Überwachter Ordner:</label><br>
+  <input type="text" id="folderPath" readonly>
+  <button onclick="selectFolder()">Ordner auswählen</button>
+
+  <br><br>
+
+  <label>API Key:</label><br>
+  <input type="password" id="apiKey">
+
+  <br><br>
+
+  <button onclick="saveSettings()">Speichern</button>
+
+  <script>
+    async function selectFolder() {
+      const path = await window.electronAPI.selectFolder();
+      if (path) document.getElementById("folderPath").value = path;
+    }
+
+    function saveSettings() {
+      const folder = document.getElementById("folderPath").value;
+      const apiKey = document.getElementById("apiKey").value;
+
+      window.electronAPI.saveSettings({ folder, apiKey });
+      alert("Gespeichert!");
+    }
+  </script>
+</body>
+</html>
